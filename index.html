@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Shopziro | Your Business. Your World.</title>
+    <meta
+      name="description"
+      content="A digital commerce platform where anyone can create, customize, showcase, and grow their own online store."
+    />
+    <meta name="theme-color" content="#0b0b10" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Shopziro" />
+    <meta property="og:title" content="Shopziro | Your Business. Your World." />
+    <meta property="og:description" content="Create, customize, showcase and grow your own online store." />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Nunito:wght@600;800&family=Playfair+Display:wght@500;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html, body { margin: 0; background: #0b0b10; }
+      .splash { position: fixed; inset: 0; display: grid; place-items: center; background: #0b0b10; color: #f4f4f8;
+        font-family: 'Bricolage Grotesque', system-ui, sans-serif; }
+      .splash-inner { display: grid; justify-items: center; gap: 14px; animation: splashIn .6s ease both; }
+      .splash-word { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; }
+      .splash-tag { font-size: 13px; color: #9a9aae; font-family: Inter, system-ui, sans-serif; }
+      @keyframes splashIn { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="splash" aria-label="Loading Shopziro">
+        <div class="splash-inner">
+          <svg width="72" height="72" viewBox="0 0 48 48" aria-hidden="true">
+            <defs>
+              <linearGradient id="sg" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#8b6cff" /><stop offset="1" stop-color="#36e0ff" />
+              </linearGradient>
+            </defs>
+            <rect width="48" height="48" rx="14" fill="url(#sg)" />
+            <path d="M12 15h19L12 32h19" fill="none" stroke="#0b0b10" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="37" cy="31.5" r="3.2" fill="#c8ff4d" />
+          </svg>
+          <div class="splash-word">Shopziro</div>
+          <div class="splash-tag">Your Business. Your World.</div>
+        </div>
+      </div>
+    </div>
+    <noscript>Shopziro needs JavaScript to run. Please enable it in your browser.</noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
