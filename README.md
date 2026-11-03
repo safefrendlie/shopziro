@@ -45,6 +45,14 @@ git remote add origin https://github.com/YOUR-NAME/shopziro.git && git push -u o
 3. **Deploy**. `vercel.json` already makes shop links like `/shop/cake-house` work on refresh.
    (Netlify also works: `public/_redirects` is included. Build command `npm run build`, publish folder `dist`.)
 
+### 4b. IMPORTANT: make links, QR codes and "Install app" work for everyone
+If a shared link or QR code asks people to log in to **Vercel**, or the app will not install, Vercel's *Deployment Protection* is switched on. Fix it once:
+1. Vercel → your project → **Settings → Deployment Protection**.
+2. Turn **Vercel Authentication** to **Disabled** (for Production at least) and save.
+3. Always share the **Production** address (Settings → Domains), never a long preview address that contains your account name.
+4. Set `VITE_SITE_URL` to that production address and redeploy. The **Share and QR** page warns you if a link looks unsafe.
+5. Open `https://YOUR-ADDRESS/manifest.webmanifest` in a private window. You should see JSON, not a login page. After that, **Install app** works on Android/desktop Chrome, and on iPhone use Share → Add to Home Screen.
+
 ### 5. Tell Supabase your live address
 **Authentication → URL Configuration**
 - **Site URL**: your live address (e.g. `https://shopziro.vercel.app`)
@@ -61,6 +69,7 @@ Buy a domain, add it in Vercel → **Settings → Domains**, follow the DNS step
 3. In a private window: register a **Buyer** → open the shop link → add to cart → checkout. The seller hears a soft chime and sees the order.
 4. Seller accepts and completes the order → buyer reviews → seller replies.
 5. On a phone (Chrome or Safari) open the site → **Install app**.
+6. Seller → **Share & QR**: copy a link, scan the QR code with another phone, and confirm it opens the shop with no login.
 
 ---
 
