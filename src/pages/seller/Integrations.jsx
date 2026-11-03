@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { Link, useOutletContext } from 'react-router-dom'
 import Icon from '../../components/Icon'
-import { QRCard } from '../../components/Share'
-import { Badge, CopyButton, Field, Modal } from '../../components/ui'
+import { Badge, Field, Modal } from '../../components/ui'
 import { NotificationSettings } from '../../components/NotificationUI'
 import { errText } from '../../lib/supabase'
 import { useToast } from '../../state/toast'
-import { SOCIALS, normalizeSocial, shopLink, socialUrl } from '../../lib/utils'
+import { SOCIALS, normalizeSocial, socialUrl } from '../../lib/utils'
 
 export default function Integrations() {
   const { shop, updateShop } = useOutletContext()
@@ -47,8 +46,6 @@ export default function Integrations() {
     toast.info(`${def.label} disconnected.`)
     setEditing(null)
   }
-
-  const url = shopLink(shop.slug)
 
   return (
     <div className="stack-lg">
@@ -95,28 +92,14 @@ export default function Integrations() {
         })}
       </div>
 
-      <div className="card stack">
-        <h3>Links for each platform</h3>
-        <p className="muted">Paste the matching link where you promote your shop. Analytics will show which platform brings visitors.</p>
-        {[
-          ['Instagram bio', 'instagram'],
-          ['WhatsApp status', 'whatsapp'],
-          ['Facebook page', 'facebook'],
-          ['TikTok bio', 'tiktok'],
-          ['YouTube description', 'youtube'],
-        ].map(([label, ref]) => (
-          <div key={ref} className="share-url">
-            <span className="affix-text wide">{label}</span>
-            <input className="input" readOnly value={shopLink(shop.slug, ref)} aria-label={`${label} link`} onFocus={(e) => e.target.select()} />
-            <CopyButton text={shopLink(shop.slug, ref)} label="Copy" />
-          </div>
-        ))}
-        <p className="hint">Shopziro does not promise or sell followers. These tools only help you share your store and send people to it.</p>
-      </div>
-
-      <div className="card stack">
-        <h3>Your QR code</h3>
-        <QRCard url={url} name={shop.slug} />
+      <div className="card row wrap between">
+        <div>
+          <h3>Links and QR codes</h3>
+          <p className="muted small">Your shop link, per-platform links and QR codes now live in their own section.</p>
+        </div>
+        <Link to="/seller/share" className="btn btn-accent btn-sm">
+          <Icon name="qr" size={16} /> Open Share and QR
+        </Link>
       </div>
 
       <div className="card stack">

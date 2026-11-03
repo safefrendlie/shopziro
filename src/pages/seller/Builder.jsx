@@ -149,13 +149,13 @@ export default function Builder() {
               <h3>Your colours and style</h3>
               <div className="grid-3">
                 <Field label="Background">
-                  <input className="color" type="color" value={draft.bg || '#101014'} onChange={(e) => set({ bg: e.target.value })} />
+                  <input className="color" type="color" value={draft.bg || '#1e1b4a'} onChange={(e) => set({ bg: e.target.value })} />
                 </Field>
                 <Field label="Text">
-                  <input className="color" type="color" value={draft.text || '#f4f4f8'} onChange={(e) => set({ text: e.target.value })} />
+                  <input className="color" type="color" value={draft.text || '#f6f4ff'} onChange={(e) => set({ text: e.target.value })} />
                 </Field>
                 <Field label="Buttons and accents">
-                  <input className="color" type="color" value={draft.accent || '#c8ff4d'} onChange={(e) => set({ accent: e.target.value })} />
+                  <input className="color" type="color" value={draft.accent || '#ff894c'} onChange={(e) => set({ accent: e.target.value })} />
                 </Field>
               </div>
               <Field label="Font">

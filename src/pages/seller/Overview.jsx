@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import Icon from '../../components/Icon'
-import { QRCard, ShareModal } from '../../components/Share'
+import { ShareModal } from '../../components/Share'
 import { Badge, CopyButton, PageLoader, StatTile } from '../../components/ui'
 import { supabase } from '../../lib/supabase'
 import { ORDER_STATUS, fmtDate, formatPrice, shopLink, shortId } from '../../lib/utils'
@@ -10,6 +10,22 @@ export default function Overview() {
   const { shop } = useOutletContext()
   const [d, setD] = useState(null)
   const [share, setShare] = useState(false)
+  const dismissKey = `sz_checklist_off_${shop.id}`
+  const [hideList, setHideList] = useState(() => {
+    try {
+      return localStorage.getItem(dismissKey) === '1'
+    } catch {
+      return false
+    }
+  })
+  const dismissList = () => {
+    setHideList(true)
+    try {
+      localStorage.setItem(dismissKey, '1')
+    } catch {
+      /* ignore */
+    }
+  }
   const currency = shop.config?.currency || 'INR'
 
   useEffect(() => {
@@ -55,7 +71,7 @@ export default function Overview() {
     { done: d.products > 0, label: 'Add your first product or service', to: '/seller/products' },
     { done: Boolean(c.socials?.whatsapp), label: 'Add your WhatsApp number', to: '/seller/integrations' },
     { done: shop.published, label: 'Publish your shop', to: '/seller/customise' },
-    { done: shop.visit_count > 0, label: 'Share your link and get your first visitor', to: '/seller/integrations' },
+    { done: shop.visit_count > 0, label: 'Share your link and get your first visitor', to: '/seller/share' },
   ]
   const doneCount = checklist.filter((x) => x.done).length
 
@@ -86,13 +102,18 @@ export default function Overview() {
         <StatTile label="Rating" value={shop.rating_count ? Number(shop.rating_avg).toFixed(1) : 'New'} hint={`${shop.rating_count} review${shop.rating_count === 1 ? '' : 's'}`} icon="star" />
       </div>
 
-      {doneCount < checklist.length && (
+      {doneCount < checklist.length && !hideList && (
         <div className="card stack">
           <div className="row between">
             <h3>Get your shop ready</h3>
-            <Badge tone="accent">
-              {doneCount} of {checklist.length}
-            </Badge>
+            <div className="row tight">
+              <Badge tone="accent">
+                {doneCount} of {checklist.length}
+              </Badge>
+              <button type="button" className="btn btn-icon btn-ghost btn-sm" onClick={dismissList} aria-label="Hide this checklist">
+                <Icon name="x" size={16} />
+              </button>
+            </div>
           </div>
           <div className="progress">
             <i style={{ width: `${(doneCount / checklist.length) * 100}%` }} />
@@ -150,12 +171,16 @@ export default function Overview() {
       </div>
 
       <div className="card stack">
-        <h3>Your shop link</h3>
+        <div className="row wrap between">
+          <h3>Your shop link</h3>
+          <Link to="/seller/share" className="btn btn-ghost btn-sm">
+            <Icon name="qr" size={16} /> Links and QR codes
+          </Link>
+        </div>
         <div className="share-url">
           <input className="input" readOnly value={url} aria-label="Shop link" onFocus={(e) => e.target.select()} />
           <CopyButton text={url} label="Copy" className="btn btn-primary" />
         </div>
-        <QRCard url={url} name={shop.slug} />
       </div>
 
       <ShareModal open={share} onClose={() => setShare(false)} url={url} title="Share your shop" text={`Visit ${shop.name} on Shopziro`} />

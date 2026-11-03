@@ -39,12 +39,12 @@ export default function AppShell() {
       <ScrollToTop />
       <header className="topbar">
         <div className="container topbar-in">
-          <Logo size={34} />
+          <Logo size={34} to={user ? dash : '/'} />
           <nav className="topnav" aria-label="Main">
             <NavLink to="/explore" className={({ isActive }) => cx('topnav-link', isActive && 'is-active')}>
               Explore
             </NavLink>
-            {!isSeller && (
+            {!user && (
               <Link to="/auth?mode=register&role=seller" className="topnav-link">
                 Sell on Shopziro
               </Link>
@@ -56,9 +56,7 @@ export default function AppShell() {
             )}
           </nav>
           <div className="topbar-actions">
-            <span className="hide-sm">
-              <InstallButton />
-            </span>
+            <InstallButton iconOnlyOnPhone />
             {profile?.role !== 'seller' && (
               <Link to="/cart" className="btn btn-icon btn-ghost cart-btn" aria-label={`Cart, ${count} items`}>
                 <Icon name="cart" />
@@ -84,9 +82,6 @@ export default function AppShell() {
                     <Link className="menu-item" to="/account/settings" onClick={() => setMenu(false)}>
                       <Icon name="settings" size={18} /> Account and alerts
                     </Link>
-                    <div className="menu-item show-sm-only">
-                      <InstallButton className="menu-install" label="Install app" />
-                    </div>
                     <button type="button" className="menu-item" onClick={logout}>
                       <Icon name="logout" size={18} /> Log out
                     </button>
@@ -119,15 +114,14 @@ export default function AppShell() {
           </div>
           <div className="footer-links">
             <Link to="/explore">Explore shops</Link>
-            <Link to="/auth?mode=register&role=seller">Create your shop</Link>
-            <Link to="/auth?mode=register&role=buyer">Join as a buyer</Link>
+            {!user && <Link to="/auth?mode=register&role=seller">Create your shop</Link>}
           </div>
           <small className="muted">© 2026 Shopziro. Your Business. Your World.</small>
         </div>
       </footer>
 
       <nav className="bottom-nav" aria-label="Mobile">
-        <NavLink to="/" end className={({ isActive }) => cx('bn-item', isActive && 'is-active')}>
+        <NavLink to={user ? dash : '/'} end className={({ isActive }) => cx('bn-item', isActive && 'is-active')}>
           <Icon name="home" /> <span>Home</span>
         </NavLink>
         <NavLink to="/explore" className={({ isActive }) => cx('bn-item', isActive && 'is-active')}>
@@ -143,8 +137,8 @@ export default function AppShell() {
           </NavLink>
         )}
         {user ? (
-          <NavLink to={dash} className={({ isActive }) => cx('bn-item', isActive && 'is-active')}>
-            <Icon name={isSeller ? 'store' : 'user'} /> <span>{isSeller ? 'My shop' : 'Account'}</span>
+          <NavLink to="/account/settings" className={({ isActive }) => cx('bn-item', isActive && 'is-active')}>
+            <Icon name="user" /> <span>Account</span>
           </NavLink>
         ) : (
           <NavLink to="/auth?mode=login" className="bn-item">

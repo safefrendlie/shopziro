@@ -32,6 +32,7 @@ const SellerEnquiries = lazy(() => import('./pages/seller/Enquiries'))
 const SellerReviews = lazy(() => import('./pages/seller/Reviews'))
 const Analytics = lazy(() => import('./pages/seller/Analytics'))
 const Integrations = lazy(() => import('./pages/seller/Integrations'))
+const ShareQR = lazy(() => import('./pages/seller/ShareQR'))
 
 const BuyerLayout = lazy(() => import('./pages/buyer/BuyerLayout'))
 const BuyerOrders = lazy(() => import('./pages/buyer/Orders'))
@@ -90,6 +91,7 @@ export default function App() {
                     <Route path="enquiries" element={<SellerEnquiries />} />
                     <Route path="reviews" element={<SellerReviews />} />
                     <Route path="analytics" element={<Analytics />} />
+                    <Route path="share" element={<ShareQR />} />
                     <Route path="integrations" element={<Integrations />} />
                     <Route path="settings" element={<AccountSettings />} />
                   </Route>

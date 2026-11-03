@@ -9,6 +9,7 @@ import { cx } from '../../lib/utils'
 const NAV = [
   { to: '/seller', label: 'Overview', icon: 'grid', end: true },
   { to: '/seller/shop', label: 'My Shop', icon: 'store' },
+  { to: '/seller/share', label: 'Share & QR', icon: 'qr' },
   { to: '/seller/customise', label: 'Customise', icon: 'sparkles' },
   { to: '/seller/products', label: 'Products', icon: 'box' },
   { to: '/seller/services', label: 'Services', icon: 'calendar' },

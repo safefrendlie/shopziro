@@ -84,6 +84,27 @@ export function siteUrl() {
   const env = import.meta.env.VITE_SITE_URL
   return (env || window.location.origin).replace(/\/+$/, '')
 }
+/** Returns a warning when the current address will not work for customers (preview or local address). */
+export function linkWarning() {
+  if (typeof window === 'undefined') return ''
+  const configured = import.meta.env.VITE_SITE_URL
+  const host = window.location.hostname
+  const target = (() => {
+    try {
+      return configured ? new URL(configured).hostname : host
+    } catch {
+      return host
+    }
+  })()
+  if (target === 'localhost' || target === '127.0.0.1' || /^192\.168\./.test(target)) {
+    return 'These links point to your own computer, so nobody else can open them. Deploy the site and set VITE_SITE_URL to your public address.'
+  }
+  if (/\.vercel\.app$/.test(target) && (/-git-/.test(target) || /^[a-z0-9-]+-[a-z0-9]{8,}-[a-z0-9-]+\.vercel\.app$/.test(target))) {
+    return 'This looks like a Vercel preview address, which asks visitors to log in to Vercel. Use your production address (or custom domain) and set it as VITE_SITE_URL, or turn off Vercel Authentication in Settings, Deployment Protection.'
+  }
+  return ''
+}
+
 export function shopLink(slug, ref) {
   return `${siteUrl()}/shop/${slug}${ref ? `?ref=${encodeURIComponent(ref)}` : ''}`
 }
@@ -201,24 +222,24 @@ export function mix(a, b, t) {
 }
 export function readableOn(bg) {
   const [r, g, b] = hexToRgb(bg)
-  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.6 ? '#0b0b10' : '#ffffff'
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.6 ? '#1a1640' : '#ffffff'
 }
 
 export const FONTS = {
   inter: { label: 'Inter (clean)', css: "'Inter', system-ui, sans-serif" },
-  grotesk: { label: 'Bricolage (expressive)', css: "'Bricolage Grotesque', 'Inter', sans-serif" },
+  grotesk: { label: 'Poppins (modern)', css: "'Poppins', 'Inter', sans-serif" },
   serif: { label: 'Playfair (elegant)', css: "'Playfair Display', Georgia, serif" },
   rounded: { label: 'Nunito (friendly)', css: "'Nunito', system-ui, sans-serif" },
   mono: { label: 'Space Mono (techy)', css: "'Space Mono', ui-monospace, monospace" },
 }
 
 export const THEMES = {
-  minimal: { label: 'Modern Minimal', blurb: 'Clean, calm and spacious.', bg: '#0f1115', text: '#f2f3f7', accent: '#7c5cff', font: 'inter', radius: 18 },
+  minimal: { label: 'Modern Minimal', blurb: 'Clean, calm and spacious.', bg: '#15123a', text: '#f4f2ff', accent: '#ff894c', font: 'inter', radius: 18 },
   luxury: { label: 'Premium Luxury', blurb: 'Gold on deep black.', bg: '#0b0a08', text: '#f6efe0', accent: '#d4af37', font: 'serif', radius: 6 },
   creative: { label: 'Creative Colourful', blurb: 'Bold, playful, expressive.', bg: '#150d24', text: '#fff7fb', accent: '#ff5fa2', font: 'grotesk', radius: 26 },
   boutique: { label: 'Fashion Boutique', blurb: 'Soft light editorial look.', bg: '#faf5f0', text: '#2a2220', accent: '#c4577a', font: 'serif', radius: 12 },
   professional: { label: 'Professional Store', blurb: 'Trustworthy and sharp.', bg: '#0a1220', text: '#eaf1fb', accent: '#2f8cff', font: 'inter', radius: 10 },
-  custom: { label: 'Custom Design', blurb: 'Choose your own colours.', bg: '#101014', text: '#f4f4f8', accent: '#c8ff4d', font: 'grotesk', radius: 16 },
+  custom: { label: 'Custom Design', blurb: 'Choose your own colours.', bg: '#1e1b4a', text: '#f6f4ff', accent: '#ff894c', font: 'grotesk', radius: 16 },
 }
 
 export function resolveTheme(c = {}) {

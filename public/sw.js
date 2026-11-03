@@ -1,5 +1,5 @@
 /* Shopziro service worker: offline app shell + notification clicks */
-const VERSION = 'shopziro-v1'
+const VERSION = 'shopziro-v2'
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/icons/icon.svg', '/icons/icon-192.png', '/icons/icon-512.png']
 
 self.addEventListener('install', (event) => {

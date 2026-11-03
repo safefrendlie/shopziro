@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import Logo from '../components/Logo'
 import Icon from '../components/Icon'
-import { Field } from '../components/ui'
+import { Field, PageLoader } from '../components/ui'
 import { supabase, errText } from '../lib/supabase'
 import { useAuth } from '../state/auth'
 import { useToast } from '../state/toast'
@@ -13,7 +13,7 @@ export default function Auth() {
   const [sp, setSp] = useSearchParams()
   const navigate = useNavigate()
   const toast = useToast()
-  const { user, profile } = useAuth()
+  const { user, profile, profileLoaded, loading } = useAuth()
   const mode = sp.get('mode') === 'register' ? 'register' : sp.get('mode') === 'forgot' ? 'forgot' : 'login'
   const role = sp.get('role') === 'seller' ? 'seller' : 'buyer'
   const next = sp.get('next') || ''
@@ -33,14 +33,6 @@ export default function Auth() {
     setErrors({})
     setNote('')
   }
-
-  // Already signed in: go to the right place.
-  useEffect(() => {
-    if (user && profile) {
-      const safe = next && next.startsWith('/') && !next.startsWith('//') ? next : ''
-      navigate(safe || (profile.role === 'seller' ? '/seller' : '/buyer'), { replace: true })
-    }
-  }, [user, profile, next, navigate])
 
   const validate = () => {
     const e = {}
@@ -94,6 +86,13 @@ export default function Auth() {
     } finally {
       setBusy(false)
     }
+  }
+
+  // Already signed in: never show the sign-up or log-in screen again.
+  if (loading || (user && !profileLoaded)) return <PageLoader />
+  if (user && profile) {
+    const safe = next && next.startsWith('/') && !next.startsWith('//') ? next : ''
+    return <Navigate to={safe || (profile.role === 'seller' ? '/seller' : '/buyer')} replace />
   }
 
   return (

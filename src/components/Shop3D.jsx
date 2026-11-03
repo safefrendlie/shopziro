@@ -42,10 +42,10 @@ function labelTexture(name, price, bg, fg) {
   ctx.fillStyle = fg
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  ctx.font = '600 34px Inter, system-ui, sans-serif'
+  ctx.font = '600 34px Poppins, Inter, system-ui, sans-serif'
   const n = name.length > 26 ? `${name.slice(0, 25)}...` : name
   ctx.fillText(n, 256, 48)
-  ctx.font = '500 28px Inter, system-ui, sans-serif'
+  ctx.font = '500 28px Poppins, Inter, system-ui, sans-serif'
   ctx.globalAlpha = 0.75
   ctx.fillText(price, 256, 92)
   const tex = new THREE.CanvasTexture(canvas)
@@ -114,7 +114,7 @@ export default function Shop3D({ shop, products, onClose, onOpenProduct }) {
     awning.rotation.x = 0.18
     outside.add(awning)
 
-    const signTex = track(signTexture(shop.name, accent, ink, 'Inter, system-ui, sans-serif'))
+    const signTex = track(signTexture(shop.name, accent, ink, 'Poppins, Inter, system-ui, sans-serif'))
     const sign = new THREE.Mesh(track(new THREE.PlaneGeometry(5.2, 1.3)), track(new THREE.MeshBasicMaterial({ map: signTex })))
     sign.position.set(0, 3.95, 2.04)
     outside.add(sign)
